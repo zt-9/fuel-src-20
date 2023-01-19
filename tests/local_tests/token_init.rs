@@ -1,6 +1,5 @@
 use crate::utils::local_test_utils::abi_calls::{decimals, initialize, name, owner, symbol};
-use crate::utils::local_test_utils::setup_utils::setup;
-use crate::utils::local_test_utils::{TestToken, WalletSetup};
+use crate::utils::local_test_utils::setup_utils::setup_token;
 
 use fuels::prelude::*;
 
@@ -36,30 +35,4 @@ async fn should_have_correct_config_and_owner() {
         owner,
         Identity::Address(Address::from(wallets.wallet_owner.address()))
     );
-}
-
-async fn setup_token(
-    token_name: &str,
-    token_symbol: &str,
-    decimals: u8,
-) -> (TestToken, WalletSetup) {
-    let (token_instance, wallets) = setup().await;
-    println!(
-        " 🪙  Token contract id: {}",
-        token_instance.get_contract_id()
-    );
-
-    println!(" 👮 Wallet owner     : {}", wallets.wallet_owner.address());
-
-    initialize(
-        &token_instance,
-        token_name,
-        token_symbol,
-        decimals,
-        Identity::Address(Address::from(wallets.wallet_owner.address())),
-    )
-    .await
-    .unwrap();
-
-    (token_instance, wallets)
 }

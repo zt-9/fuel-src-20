@@ -142,4 +142,30 @@ pub mod setup_utils {
         let test_token = setup_token_contract(&wallets.wallet_owner).await;
         (test_token, wallets)
     }
+
+    pub async fn setup_token(
+        token_name: &str,
+        token_symbol: &str,
+        decimals: u8,
+    ) -> (TestToken, WalletSetup) {
+        let (token_instance, wallets) = setup().await;
+        println!(
+            " 🪙  Token contract id: {}",
+            token_instance.get_contract_id()
+        );
+
+        println!(" 👮 Wallet owner     : {}", wallets.wallet_owner.address());
+
+        abi_calls::initialize(
+            &token_instance,
+            token_name,
+            token_symbol,
+            decimals,
+            Identity::Address(Address::from(wallets.wallet_owner.address())),
+        )
+        .await
+        .unwrap();
+
+        (token_instance, wallets)
+    }
 }
