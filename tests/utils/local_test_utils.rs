@@ -13,10 +13,8 @@ pub struct WalletSetup {
 }
 
 pub mod abi_calls {
-    use fuels::{
-        contract::call_response::FuelCallResponse,
-        prelude::{Error, Identity, SizedAsciiString},
-    };
+    use fuels::contract::call_response::FuelCallResponse;
+    use fuels::prelude::{Error, Identity, SizedAsciiString};
 
     use super::*;
 
@@ -143,18 +141,19 @@ pub mod setup_utils {
         (test_token, wallets)
     }
 
+    // return a owner_token_instance
     pub async fn setup_token(
         token_name: &str,
         token_symbol: &str,
         decimals: u8,
     ) -> (TestToken, WalletSetup) {
         let (token_instance, wallets) = setup().await;
-        println!(
-            " 🪙  Token contract id: {}",
-            token_instance.get_contract_id()
-        );
+        // println!(
+        //     " 🪙  Token contract id: {}",
+        //     token_instance.get_contract_id()
+        // );
 
-        println!(" 👮 Wallet owner     : {}", wallets.wallet_owner.address());
+        // println!(" 👮 Wallet owner     : {}", wallets.wallet_owner.address());
 
         abi_calls::initialize(
             &token_instance,

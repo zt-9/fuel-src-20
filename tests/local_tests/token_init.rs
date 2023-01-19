@@ -1,7 +1,5 @@
-use crate::utils::local_test_utils::{
-    abi_calls::{decimals, name, owner, symbol},
-    setup_utils::setup_token,
-};
+use crate::utils::local_test_utils::abi_calls::{decimals, name, owner, symbol};
+use crate::utils::local_test_utils::setup_utils::setup_token;
 
 use fuels::prelude::*;
 
