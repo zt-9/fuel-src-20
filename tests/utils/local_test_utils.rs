@@ -121,8 +121,7 @@ pub mod setup_utils {
             wallet_owner,
             TxParameters::default(),
             StorageConfiguration::with_storage_path(Some(
-                "contracts/token_contract/out/debug/token_contract-storage_slots.json"
-                    .to_string(),
+                "contracts/token_contract/out/debug/token_contract-storage_slots.json".to_string(),
             )),
         )
         .await

@@ -1,3 +1,2 @@
 [workspace]
 members = ["contracts/token_contract", "contracts/token_abi"]
-

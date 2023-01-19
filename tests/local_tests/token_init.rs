@@ -1,9 +1,8 @@
-use crate::utils::local_test_utils::{TestToken, WalletSetup};
-use crate::utils::local_test_utils::abi_calls::{initialize, name, symbol, decimals, owner};
+use crate::utils::local_test_utils::abi_calls::{decimals, initialize, name, owner, symbol};
 use crate::utils::local_test_utils::setup_utils::setup;
+use crate::utils::local_test_utils::{TestToken, WalletSetup};
 
 use fuels::prelude::*;
-
 
 #[tokio::test]
 async fn should_have_correct_config_and_owner() {
@@ -33,17 +32,25 @@ async fn should_have_correct_config_and_owner() {
 
     // owner
     let owner = owner(&token_instance).await.unwrap().value;
-    assert_eq!(owner, Identity::Address(Address::from(wallets.wallet_owner.address())));
+    assert_eq!(
+        owner,
+        Identity::Address(Address::from(wallets.wallet_owner.address()))
+    );
 }
 
-
-async fn setup_token(token_name:&str, token_symbol:&str, decimals:u8) -> (TestToken, WalletSetup){
+async fn setup_token(
+    token_name: &str,
+    token_symbol: &str,
+    decimals: u8,
+) -> (TestToken, WalletSetup) {
     let (token_instance, wallets) = setup().await;
-    println!(" 🪙  Token contract id: {}", token_instance.get_contract_id());
+    println!(
+        " 🪙  Token contract id: {}",
+        token_instance.get_contract_id()
+    );
 
     println!(" 👮 Wallet owner     : {}", wallets.wallet_owner.address());
 
-    
     initialize(
         &token_instance,
         token_name,
@@ -55,5 +62,4 @@ async fn setup_token(token_name:&str, token_symbol:&str, decimals:u8) -> (TestTo
     .unwrap();
 
     (token_instance, wallets)
-
 }
