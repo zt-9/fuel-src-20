@@ -48,7 +48,7 @@ async fn only_owner_can_transfer_ownership() {
     assert!(res.is_err());
 
     let err = res.unwrap_err();
-    if let errors::Error::RevertTransactionError(err_str, _receipt_vec) = &err {
+    if let errors::Error::RevertTransactionError(err_str, _) = &err {
         assert_eq!(err_str, &Error::NotOwner().to_string());
     }
 }

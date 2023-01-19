@@ -130,4 +130,3 @@ fn _transfer_ownership(new_owner: Identity) {
     });
     storage.owner = new_owner;
 }
-
