@@ -131,15 +131,3 @@ fn _transfer_ownership(new_owner: Identity) {
     storage.owner = new_owner;
 }
 
-
-// #[test]
-// fn test_initialize() {
-//     let token = abi(Token, 0xa93454ceabe6577c146010049d12f16564800b6273db4d4101ba0c97473c122f);
-//     let config: TokenInitializeConfig = TokenInitializeConfig{
-//         name: "MyToken                         ",
-//         symbol: "MTK     ",
-//         decimals: 18u8,
-//     };
-//     let sender = msg_sender().unwrap();
-//     // token.initialize(config, sender);
-// }
