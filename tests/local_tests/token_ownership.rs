@@ -1,9 +1,12 @@
+use core::fmt;
+
 use fuels::prelude::*;
 
 use crate::utils::local_test_utils::abi_calls::{owner, transfer_ownership};
 use crate::utils::local_test_utils::setup_utils::{get_token_instance, setup_token};
 use crate::utils::local_test_utils::test_token_mod::Error;
-use crate::utils::local_test_utils::Ownershiptransferred;
+use crate::utils::local_test_utils::{Ownershiptransferred, TestToken};
+use fuels::types::errors;
 
 #[tokio::test]
 async fn owner_transfer_ownership() {
@@ -31,7 +34,6 @@ async fn owner_transfer_ownership() {
 }
 
 #[tokio::test]
-
 async fn only_owner_can_transfer_ownership() {
     let (token_instance, wallets) = setup_token("My Token", "MTK", 18).await;
 
@@ -45,21 +47,19 @@ async fn only_owner_can_transfer_ownership() {
     .await;
     assert!(res.is_err());
 
-    //TODO: check if it's NotOwner error
-
-    // RevertTrran
-    // assert!(res, RevertTransactionError::);
-    // #[feature(type_name_of_val)]
-    // println!("{:?}", type_name_of_val(&res));
-    // println!("{:?}", res.unwrap_err());
-
-    // let err = &res.unwrap_err();
-    // let e = &res.unwrap();
-
-    // println!("{:?}", err);
-
-    // assert_eq!(res.unwrap_err(), RevertTransactionError("NotOwner", res.unwrap_err().)
+    let err = res.unwrap_err();
+    if let errors::Error::RevertTransactionError(err_str, _receipt_vec) = &err {
+        assert_eq!(err_str, &Error::NotOwner().to_string());
+    }
 }
 
 #[tokio::test]
 async fn owner_mint_tokens() {}
+
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+        // or, alternatively:
+        // fmt::Debug::fmt(self, f)
+    }
+}
