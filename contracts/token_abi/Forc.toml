@@ -1,0 +1,7 @@
+[project]
+authors = ["z tan"]
+entry = "main.sw"
+license = "Apache-2.0"
+name = "token_abi"
+
+[dependencies]
