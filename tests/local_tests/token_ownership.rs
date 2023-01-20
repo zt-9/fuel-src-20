@@ -58,7 +58,6 @@ async fn only_owner_can_transfer_ownership() {
 async fn owner_mint_tokens() {
     let (token_instance, wallets) = setup_token("My Token", "MTK", 18).await;
 
-    // let old_owner = Identity::Address(Address::from(wallets.wallet_owner.address()));
     let recipient = Identity::Address(Address::from(wallets.wallet1.address()));
 
     let amount = 123232;
