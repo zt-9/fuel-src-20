@@ -39,15 +39,13 @@ async fn owner_transfer_ownership() {
 #[tokio::test]
 async fn only_owner_can_transfer_ownership() {
     let (token_instance, wallets) = setup_token("My Token", "MTK", 18).await;
+    let new_owner = Identity::Address(Address::from(wallets.wallet1.address()));
 
-    let wallet1_token_instance =
-        get_token_instance(token_instance.get_contract_id(), &wallets.wallet1);
+    let wallet1_token_instance = token_instance.with_wallet(wallets.wallet2).unwrap();
 
-    let res = transfer_ownership(
-        &wallet1_token_instance,
-        Identity::Address(Address::from(wallets.wallet1.address())),
-    )
-    .await;
+    // perform call with wallet 1
+    let res = transfer_ownership(&wallet1_token_instance, new_owner).await;
+
     assert!(res.is_err());
 
     let err = res.unwrap_err();
@@ -64,13 +62,18 @@ async fn owner_mint_tokens() {
     let recipient = Identity::Address(Address::from(wallets.wallet1.address()));
 
     let amount = 123232;
-    
-    let res = mint(&token_instance, recipient.clone(), amount).await.unwrap();
+
+    let res = mint(&token_instance, recipient.clone(), amount)
+        .await
+        .unwrap();
 
     // should log Mint
     let log = res.get_logs_with_type::<Mint>().unwrap();
     let recipient_bit256: Bits256 = MyIdentity(recipient.clone()).into();
-    let expected_log = Mint{recipient:recipient_bit256, amount};
+    let expected_log = Mint {
+        recipient: recipient_bit256,
+        amount,
+    };
 
     assert_eq!(log, vec![expected_log]);
 }
@@ -82,7 +85,6 @@ impl fmt::Display for Error {
         // fmt::Debug::fmt(self, f)
     }
 }
-
 
 struct MyIdentity(Identity); // a tuple struct wrapper
 impl Into<Bits256> for MyIdentity {

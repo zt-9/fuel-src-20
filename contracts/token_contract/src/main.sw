@@ -84,8 +84,8 @@ impl Token for Contract {
     fn mint(recipient: Identity, amount: u64) {
         _validate_owner();
         storage.total_supply += amount;
-        mint_to(amount, recipient);
-        log(Mint{
+        mint_to(amount, recipient); // TODO: revert bc of the transfer_to() inside this method. mint along works well
+        log(Mint {
             recipient: recipient.into(),
             amount: amount,
         })
