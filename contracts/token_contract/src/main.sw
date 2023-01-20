@@ -85,7 +85,7 @@ impl Token for Contract {
         _validate_owner();
         storage.total_supply += amount;
         mint_to(amount, recipient);
-        log(Mint {
+        log(Mint{
             recipient: recipient.into(),
             amount: amount,
         })
