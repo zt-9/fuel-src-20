@@ -2,6 +2,7 @@ use crate::utils::local_test_utils::abi_calls::{decimals, name, owner, symbol};
 use crate::utils::local_test_utils::setup_utils::setup_token;
 
 use fuels::prelude::*;
+use fuels::types::Identity;
 
 #[tokio::test]
 async fn should_have_correct_config_and_owner() {

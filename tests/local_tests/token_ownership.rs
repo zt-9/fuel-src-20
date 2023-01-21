@@ -3,9 +3,8 @@ use fuels::prelude::*;
 
 use crate::utils::local_test_utils::abi_calls::{mint, owner, transfer_ownership};
 use crate::utils::local_test_utils::setup_utils::setup_token;
-use crate::utils::local_test_utils::test_token_mod::Error;
-use crate::utils::local_test_utils::{Mint, Ownershiptransferred};
-use fuels::types::errors;
+use crate::utils::local_test_utils::{Error, Mint, Ownershiptransferred};
+use fuels::types::{errors, Bits256, Identity};
 use std::convert::Into;
 
 #[tokio::test]
@@ -81,11 +80,10 @@ async fn owner_mint_tokens() {
     assert_eq!(amount, token_balance);
 }
 
+// impl for the Error enum defined contract
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self)
-        // or, alternatively:
-        // fmt::Debug::fmt(self, f)
     }
 }
 

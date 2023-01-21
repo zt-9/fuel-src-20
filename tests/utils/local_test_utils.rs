@@ -1,10 +1,12 @@
 use fuels::prelude::*;
+use fuels::programs::call_response::FuelCallResponse;
 use fuels::signers::WalletUnlocked;
+use fuels::types::{Identity, SizedAsciiString};
 
-abigen!(
-    TestToken,
-    "contracts/token_contract/out/debug/token_contract-abi.json"
-);
+abigen!(Contract(
+    name = "TestToken",
+    abi = "contracts/token_contract/out/debug/token_contract-abi.json"
+));
 
 pub struct WalletSetup {
     pub wallet_owner: WalletUnlocked,
@@ -13,8 +15,8 @@ pub struct WalletSetup {
 }
 
 pub mod abi_calls {
-    use fuels::contract::call_response::FuelCallResponse;
-    use fuels::prelude::{Error, Identity, SizedAsciiString};
+
+    use fuels::types::errors::Error;
 
     use super::*;
 
