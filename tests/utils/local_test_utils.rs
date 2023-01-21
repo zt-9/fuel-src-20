@@ -73,7 +73,12 @@ pub mod abi_calls {
         receipient: Identity,
         amount: u64,
     ) -> Result<FuelCallResponse<()>, Error> {
-        contract.methods().mint(receipient, amount).call().await
+        contract
+            .methods()
+            .mint(receipient, amount)
+            .append_variable_outputs(1)
+            .call()
+            .await
     }
 
     pub async fn burn(contract: &TestToken, amount: u64) -> Result<FuelCallResponse<()>, Error> {

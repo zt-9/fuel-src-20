@@ -1,11 +1,8 @@
 use core::fmt;
-use std::ops::Add;
-
 use fuels::prelude::*;
-use fuels::signers::fuel_crypto::coins_bip32::ecdsa::digest::typenum::Bit;
 
 use crate::utils::local_test_utils::abi_calls::{mint, owner, transfer_ownership};
-use crate::utils::local_test_utils::setup_utils::{get_token_instance, setup_token};
+use crate::utils::local_test_utils::setup_utils::setup_token;
 use crate::utils::local_test_utils::test_token_mod::Error;
 use crate::utils::local_test_utils::{Mint, Ownershiptransferred};
 use fuels::types::errors;
@@ -75,6 +72,13 @@ async fn owner_mint_tokens() {
     };
 
     assert_eq!(log, vec![expected_log]);
+
+    // check contract balance
+    let contract_id = token_instance.get_contract_id();
+    let asset_id = AssetId::new(*contract_id.hash());
+    let token_balance = wallets.wallet1.get_asset_balance(&asset_id).await.unwrap();
+
+    assert_eq!(amount, token_balance);
 }
 
 impl fmt::Display for Error {
