@@ -8,6 +8,21 @@ abigen!(Contract(
     abi = "contracts/token_contract/out/debug/token_contract-abi.json"
 ));
 
+// setup_contract_test!(
+//     Wallets("wallet_owner", "wallet1", "wallet2"),
+//     // Abigen(name = "TestToken", abi = "contracts/token_contract"),
+//     Deploy(
+//         name = "token_instance",
+//         contract = "TestToken",
+//         wallet = "wallet_owner"
+//     ),
+//     Deploy(
+//         name = "wallet1_token_instance",
+//         contract = "TestToken",
+//         wallet = "wallet1"
+//     )
+// );
+
 pub struct WalletSetup {
     pub wallet_owner: WalletUnlocked,
     pub wallet1: WalletUnlocked,
@@ -103,15 +118,16 @@ pub mod abi_calls {
 pub mod setup_utils {
     use super::*;
     pub async fn setup_wallets() -> WalletSetup {
-        let initial_amount: u64 = 10 ^ 18;
-        let num_wallets: u64 = 3;
-        let num_coins = 1;
+        setup_contract_test!(Wallets("wallet_owner", "wallet1", "wallet2"),);
+        // let initial_amount: u64 = 10 ^ 18;
+        // let num_wallets: u64 = 3;
+        // let num_coins = 1;
 
-        let config = WalletsConfig::new(Some(num_wallets), Some(num_coins), Some(initial_amount));
-        let wallets = launch_custom_provider_and_get_wallets(config, None, None).await;
-        let wallet_owner = wallets.get(0).unwrap().clone();
-        let wallet1 = wallets.get(1).unwrap().clone();
-        let wallet2 = wallets.get(2).unwrap().clone();
+        // let config = WalletsConfig::new(Some(num_wallets), Some(num_coins), Some(initial_amount));
+        // let wallets = launch_custom_provider_and_get_wallets(config, None, None).await;
+        // let wallet_owner = wallets.get(0).unwrap().clone();
+        // let wallet1 = wallets.get(1).unwrap().clone();
+        // let wallet2 = wallets.get(2).unwrap().clone();
 
         WalletSetup {
             wallet_owner,
